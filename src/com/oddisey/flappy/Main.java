@@ -1,10 +1,8 @@
 package com.oddisey.flappy;
 
 import org.lwjgl.LWJGLException;
-import org.lwjgl.opengl.ContextAttribs;
-import org.lwjgl.opengl.Display;
-import org.lwjgl.opengl.DisplayMode;
-import org.lwjgl.opengl.PixelFormat;
+import static org.lwjgl.opengl.GL11.*;
+import org.lwjgl.opengl.*;
 
 public class Main implements Runnable {
 
@@ -21,6 +19,14 @@ public class Main implements Runnable {
         isRunning = true;
         thread = new Thread(this, "Display");
         thread.start();
+    }
+
+    // Check if OpenGL configured properly and make screen in full white color
+    private void init() {
+        String versionGL =  glGetString(GL_VERSION);
+        System.out.println("OpenGL " + versionGL);
+
+        glClearColor(1.0f, 1.0f, 1.0f, 1.0f);
     }
 
     /*
@@ -40,11 +46,19 @@ public class Main implements Runnable {
         } catch (LWJGLException e) {
             e.printStackTrace();
         }
+
+        init();
+
         while (isRunning) {
+            render();
             Display.update();
             if (Display.isCloseRequested()) isRunning = false;
         }
         Display.destroy();
+    }
+
+    public void render() {
+        glClear(GL_COLOR_BUFFER_BIT);
     }
 
     public static void main(String[] args) {

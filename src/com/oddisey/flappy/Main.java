@@ -1,7 +1,10 @@
 package com.oddisey.flappy;
 
+import com.oddisey.flappy.utils.ShaderUtils;
 import org.lwjgl.LWJGLException;
 import static org.lwjgl.opengl.GL11.*;
+import static org.lwjgl.opengl.GL30.*;
+import static org.lwjgl.opengl.GL20.*;
 import org.lwjgl.opengl.*;
 
 public class Main implements Runnable {
@@ -49,6 +52,12 @@ public class Main implements Runnable {
 
         init();
 
+        int vertexArrayObj = glGenVertexArrays();
+        glBindVertexArray(vertexArrayObj);
+
+        int shader = ShaderUtils.load("shaders/shader.vert", "shaders/shader.frag");
+        glUseProgram(shader);
+
         while (isRunning) {
             render();
             Display.update();
@@ -59,6 +68,7 @@ public class Main implements Runnable {
 
     public void render() {
         glClear(GL_COLOR_BUFFER_BIT);
+        glDrawArrays(GL_TRIANGLES, 0, 3);
     }
 
     public static void main(String[] args) {

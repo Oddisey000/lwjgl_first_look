@@ -6,7 +6,7 @@ import static org.lwjgl.opengl.GL20.*;
 public class ShaderUtils {
     private ShaderUtils() {}
 
-    private static int load(String vertPath, String fragPath) {
+    public static int load(String vertPath, String fragPath) {
         String vert = FileUtils.loadAsString(vertPath);
         String frag = FileUtils.loadAsString(fragPath);
 

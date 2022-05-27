@@ -1,11 +1,16 @@
 package com.oddisey.flappy;
 
-import com.oddisey.flappy.utils.ShaderUtils;
+import com.oddisey.flappy.graphics.Shader;
+import com.oddisey.flappy.math.Vector3f;
 import org.lwjgl.LWJGLException;
+import org.lwjgl.opengl.ContextAttribs;
+import org.lwjgl.opengl.Display;
+import org.lwjgl.opengl.DisplayMode;
+import org.lwjgl.opengl.PixelFormat;
+
 import static org.lwjgl.opengl.GL11.*;
-import static org.lwjgl.opengl.GL30.*;
-import static org.lwjgl.opengl.GL20.*;
-import org.lwjgl.opengl.*;
+import static org.lwjgl.opengl.GL30.glBindVertexArray;
+import static org.lwjgl.opengl.GL30.glGenVertexArrays;
 
 public class Main implements Runnable {
 
@@ -30,6 +35,7 @@ public class Main implements Runnable {
         System.out.println("OpenGL " + versionGL);
 
         glClearColor(1.0f, 1.0f, 1.0f, 1.0f);
+        Shader.loadAll();
     }
 
     /*
@@ -55,8 +61,9 @@ public class Main implements Runnable {
         int vertexArrayObj = glGenVertexArrays();
         glBindVertexArray(vertexArrayObj);
 
-        int shader = ShaderUtils.load("shaders/shader.vert", "shaders/shader.frag");
-        glUseProgram(shader);
+        Shader shader = Shader.BASIC;
+        shader.enable();
+        shader.setUniform3f("col", new Vector3f(0.8f, 0.2f, 0.3f));
 
         while (isRunning) {
             render();
